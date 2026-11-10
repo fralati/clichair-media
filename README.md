@@ -8,6 +8,8 @@ Shopify prende le immagini da qui con `fileCreate` (originalSource = URL raw di 
 - `tools/stories_cover.py`: generatore della copertina Stories (1600x1000 WebP, modello unico).
 - `tools/icons.py`: icone a linee pronte (flacone, goccia, cute, ricciolo, ciocche, forbici, tabella, sole, fiocco, rasoio, calendario).
 - `tools/steps_strip.py` + `tools/step_icons.py`: illustrazione "passo per passo" (riquadri numerati, nessuna parola) da mettere dopo la routine nella storia.
+- `tools/news_cover.py` + `tools/news_icons.py`: generatore della copertina News (1600x1000 WebP, temi tools/platform/strategy/product/community, "N E W S", logo, icona a destra, nessun testo da tradurre). Esempio: `python3 tools/news_cover.py --theme platform --icon chat_cart --out news/AAMMGGhhmm_clichair-news-<slug>.webp`
+- `news/`: copertine del blog News, nome `AAMMGGhhmm_clichair-news-<slug>.webp`.
 - `stories/`: copertine e illustrazioni generate, nome `AAMMGGhhmm_clichair-stories-<nome>.webp`.
 
 Esempio:
