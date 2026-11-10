@@ -7,7 +7,8 @@ Shopify prende le immagini da qui con `fileCreate` (originalSource = URL raw di 
 - `assets/logo-clichair-bianco.png`: stessa versione in bianco.
 - `tools/stories_cover.py`: generatore della copertina Stories (1600x1000 WebP, modello unico).
 - `tools/icons.py`: icone a linee pronte (flacone, goccia, cute, ricciolo, ciocche, forbici, tabella, sole, fiocco, rasoio, calendario).
-- `stories/`: copertine generate, nome `AAMMGGhhmm_clichair-stories-<nome>.webp`.
+- `tools/steps_strip.py` + `tools/step_icons.py`: illustrazione "passo per passo" (riquadri numerati, nessuna parola) da mettere dopo la routine nella storia.
+- `stories/`: copertine e illustrazioni generate, nome `AAMMGGhhmm_clichair-stories-<nome>.webp`.
 
 Esempio:
 
