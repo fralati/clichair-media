@@ -126,8 +126,33 @@ def chat_cart(p):  # fumetto della chat con spunta + carrello pronto (10.11.2026
     p.poly([(1366, 440), (1395, 490), (1336, 492)], p.a)
 
 
+def _mix(c1, c2, t):  # miscela due colori esadecimali (t 0 = c1, 1 = c2)
+    a = [int(c1[i:i + 2], 16) for i in (1, 3, 5)]; b = [int(c2[i:i + 2], 16) for i in (1, 3, 5)]
+    return "#%02x%02x%02x" % tuple(round(x + (y - x) * t) for x, y in zip(a, b))
+
+
+def colour_fade(p):  # ciocca ondulata che sfuma dal colore pieno al chiaro + gocce d'acqua (12.11.2026)
+    n = 40
+    path = lambda t: (960 + 70 * math.sin(t * 2.6 * math.pi), 270 + t * 470)
+    for i in range(n):
+        t = i / (n - 1); x, y = path(t)
+        p.C(x, y, 74 - 26 * t, fill=_mix(p.a, "#fbf8fb", min(1, t * 1.15)))
+    # fili del capello: tre linee chiare lungo la ciocca
+    for off in (-34, 0, 34):
+        pts = []
+        for i in range(60):
+            t = 0.04 + 0.9 * i / 59; x, y = path(t)
+            pts.append((x + off * (1 - 0.35 * t), y))
+        p.L(pts, w=4, c=_mix(p.a, "#ffffff", 0.45))
+
+    def drop(cx, cy, r):  # goccia: arco + punta, contorno unico
+        pts = [(cx + r * math.cos(math.radians(a)), cy + r * math.sin(math.radians(a))) for a in range(-35, 216, 5)]
+        pts.append((cx, cy - r * 2.1))
+        p.poly(pts, WHITE); p.L(pts + [pts[0]], w=7)
+    drop(1220, 400, 42); drop(1330, 560, 34); drop(1215, 690, 28)
+
 ICONS = {
     "quick": quick, "calc": calc, "klarna": klarna, "planb": planb, "collective": collective,
     "niche": niche, "pureverve": pureverve, "creators": creators, "login": login, "kits": kits,
-    "retail": retail, "chat_cart": chat_cart,
+    "retail": retail, "chat_cart": chat_cart, "colour_fade": colour_fade,
 }
