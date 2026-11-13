@@ -141,4 +141,26 @@ def calendario(p):
                 p.C(cx, cy, 10, fill=p.a)
 
 
-ICONS = {f.__name__: f for f in [flacone, goccia, cute, ricciolo, ciocche, forbici, tabella, sole, fiocco, rasoio, calendario]}
+def ciotola(p):
+    # servizio colore: ciotola con crema e pennello, ciocche bianche coperte dal colore
+    # ciocche: parte alta bianca, parte bassa colorata
+    for k, x in enumerate([985, 1075]):
+        top = 250 + k * 30
+        p.R([x, top, x + 64, 520], rad=32, fill=WHITE, outline=p.a, w=6)
+        p.R([x + 3, top + 120, x + 61, 517], rad=29, fill=p.a)
+        p.L([(x + 32, top + 20), (x + 32, top + 100)], w=3)
+    # ciotola: corpo a mezza ellisse
+    cx, cy, rx, ry = 1210, 600, 200, 150
+    body = [(cx + rx * math.cos(math.radians(a)), cy + ry * math.sin(math.radians(a))) for a in range(0, 181, 4)]
+    p.poly(body, fill=WHITE, outline=p.a, w=8)
+    # bordo e crema
+    p.R([cx - rx, cy - 34, cx + rx, cy + 34], rad=34, fill=p.t, outline=p.a, w=8)
+    # base
+    p.R([cx - 70, cy + ry - 6, cx + 70, cy + ry + 22], rad=10, fill=p.a)
+    # pennello: setole nella crema e manico inclinato
+    p.poly([(1250, 600), (1300, 600), (1318, 545), (1268, 545)], fill=p.a)
+    p.L([(1293, 548), (1430, 270)], w=16)
+    p.C(1430, 270, 12, fill=p.a)
+
+
+ICONS = {f.__name__: f for f in [flacone, goccia, cute, ricciolo, ciocche, forbici, tabella, sole, fiocco, rasoio, calendario, ciotola]}

@@ -120,4 +120,20 @@ def calendario(p):
                 p.C(cx, cy, 8, fill=p.a)
 
 
-STEPS = {f.__name__: f for f in [bagnare, massaggio, posa, risciacquo, asciugamano, sezioni, pettine, lunghezze, calendario]}
+def ciotola(p):
+    # miscelare colore e ossidante: ciotola con crema, pennello e misurino
+    cx, cy, rx, ry = 320, 320, 190, 140
+    body = [(cx + rx * math.cos(math.radians(a)), cy + ry * math.sin(math.radians(a))) for a in range(0, 181, 4)]
+    p.poly(body, fill=WHITE, outline=p.a, w=8)
+    p.R([cx - rx, cy - 32, cx + rx, cy + 32], rad=32, fill=p.t, outline=p.a, w=8)
+    p.R([cx - 65, cy + ry - 6, cx + 65, cy + ry + 20], rad=10, fill=p.a)
+    p.poly([(360, 320), (408, 320), (424, 268), (376, 268)], fill=p.a)
+    p.L([(400, 271), (520, 110)], w=14)
+    # misurino graduato a destra
+    p.R([540, 230, 620, 440], rad=14, fill=WHITE, outline=p.a, w=7)
+    p.R([544, 340, 616, 436], rad=10, fill=p.t)
+    for y in [270, 310, 350, 390]:
+        p.L([(540, y), (570, y)], w=5)
+
+
+STEPS = {f.__name__: f for f in [bagnare, massaggio, posa, risciacquo, asciugamano, sezioni, pettine, lunghezze, calendario, ciotola]}
