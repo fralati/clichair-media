@@ -163,4 +163,46 @@ def ciotola(p):
     p.C(1430, 270, 12, fill=p.a)
 
 
-ICONS = {f.__name__: f for f in [flacone, goccia, cute, ricciolo, ciocche, forbici, tabella, sole, fiocco, rasoio, calendario, ciotola]}
+def berretto(p):
+    # inverno: berretto di lana con pompon e treccia lunga che scende, fiocchi di neve
+    cx = 1160
+    # calotta del berretto (mezza ellisse)
+    dome = [(cx + 210 * math.cos(math.radians(a)), 470 + 230 * math.sin(math.radians(a))) for a in range(180, 361, 4)]
+    p.poly(dome, fill=WHITE, outline=p.a, w=8)
+    # coste della maglia
+    for k in range(-3, 4):
+        x = cx + k * 52
+        top = 470 - 230 * math.sqrt(max(0, 1 - (k * 52 / 210) ** 2)) + 18
+        p.L([(x, top), (x, 450)], w=4)
+    # risvolto a costine
+    p.R([cx - 225, 440, cx + 225, 520], rad=22, fill=p.a)
+    for x in range(cx - 195, cx + 200, 30):
+        p.L([(x, 452), (x, 508)], w=4, c=p.t)
+    # pompon
+    p.C(cx, 232, 46, fill=p.t, outline=p.a, w=8)
+    # treccia: maglie a foglia inclinate alternativamente, come una treccia vista di fronte
+    x0, y = cx + 120, 548
+    def leaf(xc, yc, ang):
+        pts = []
+        for a in range(0, 360, 8):
+            t = math.radians(a)
+            ex, ey = 26 * math.cos(t), 40 * math.sin(t)
+            r = math.radians(ang)
+            pts.append((xc + ex * math.cos(r) - ey * math.sin(r), yc + ex * math.sin(r) + ey * math.cos(r)))
+        return pts
+    for i in range(5):
+        yc = y + i * 46
+        p.poly(leaf(x0 - 16, yc, -35), fill=p.t, outline=p.a, w=6)
+        p.poly(leaf(x0 + 16, yc + 23, 35), fill=p.t, outline=p.a, w=6)
+    y = y + 5 * 46 + 10
+    p.R([x0 - 26, y - 6, x0 + 26, y + 12], rad=8, fill=p.a)
+    for dx in (-18, 0, 18):
+        p.L([(x0 + dx * 0.6, y + 12), (x0 + dx, y + 60)], w=5)
+    # fiocchi di neve
+    for (fx, fy, r) in [(960, 300, 38), (1400, 330, 30), (990, 700, 28)]:
+        for k in range(3):
+            t = math.radians(k * 60)
+            p.L([(fx - r * math.cos(t), fy - r * math.sin(t)), (fx + r * math.cos(t), fy + r * math.sin(t))], w=5)
+
+
+ICONS = {f.__name__: f for f in [flacone, goccia, cute, ricciolo, ciocche, forbici, tabella, sole, fiocco, rasoio, calendario, ciotola, berretto]}

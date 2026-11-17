@@ -136,4 +136,24 @@ def ciotola(p):
         p.L([(540, y), (570, y)], w=5)
 
 
-STEPS = {f.__name__: f for f in [bagnare, massaggio, posa, risciacquo, asciugamano, sezioni, pettine, lunghezze, calendario, ciotola]}
+def spray(p):
+    # nebulizzare senza risciacquo: flacone spray generico e nuvola di goccioline su una ciocca
+    p.R([110, 230, 250, 490], rad=26, fill=WHITE, outline=p.a, w=7)
+    p.R([140, 175, 220, 230], rad=8, fill=p.a)
+    p.R([150, 130, 250, 175], rad=10, fill=p.a)
+    p.R([230, 140, 290, 160], rad=6, fill=p.a)
+    for y in [320, 360]:
+        p.L([(140, y), (220, y)], w=5)
+    # nuvola di goccioline a ventaglio
+    for k, (dx, dy) in enumerate([(330, 120), (370, 150), (350, 180), (400, 125), (410, 175), (440, 150), (380, 205)]):
+        p.C(dx, dy, 9 if k % 2 else 12, fill=p.a)
+    # ciocca lunga a destra
+    p.R([480, 100, 580, 500], rad=50, fill=WHITE, outline=p.a, w=7)
+    for x in [505, 530, 555]:
+        p.L([(x, 125), (x + 4, 475)], w=3)
+    # freccia: dall'alto verso le punte
+    p.L([(620, 180), (620, 440)], w=7)
+    p.poly([(600, 430), (640, 430), (620, 465)], fill=p.a)
+
+
+STEPS = {f.__name__: f for f in [bagnare, massaggio, posa, risciacquo, asciugamano, sezioni, pettine, lunghezze, calendario, ciotola, spray]}
