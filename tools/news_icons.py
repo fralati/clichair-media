@@ -151,8 +151,33 @@ def colour_fade(p):  # ciocca ondulata che sfuma dal colore pieno al chiaro + go
         p.poly(pts, WHITE); p.L(pts + [pts[0]], w=7)
     drop(1220, 400, 42); drop(1330, 560, 34); drop(1215, 690, 28)
 
+
+def catalog(p):  # elenco collezioni: sei riquadri per area + pulsanti a pillola delle linee + contrassegno (19.11.2026)
+    tone = "#c9cde0"
+    for r in range(2):
+        for c in range(3):
+            x = 760 + c * 195; y = 240 + r * 190
+            hi = (r == 0 and c == 0)
+            p.R([x, y, x + 165, y + 160], rad=26, fill=p.a if hi else WHITE, outline=p.a, w=7)
+            p.R([x + 28, y + 26, x + 137, y + 96], rad=14, fill=WHITE if hi else tone)
+            p.L([(x + 34, y + 124), (x + 112, y + 124)], w=9, c=WHITE if hi else GREY)
+            p.L([(x + 34, y + 140), (x + 80, y + 140)], w=7, c=tone if hi else "#d6d2ca")
+    # pulsanti a pillola delle linee
+    xs = [(760, 930), (955, 1085), (1110, 1310)]
+    for i, (a, b) in enumerate(xs):
+        p.R([a, 650, b, 710], rad=30, fill=p.a if i == 2 else WHITE, outline=p.a, w=6)
+        if i != 2:
+            p.L([(a + 34, 680), (b - 34, 680)], w=8, c=GREY)
+    p.L([(1150, 680), (1240, 680)], w=8, c=WHITE)
+    p.poly([(1258, 664), (1282, 680), (1258, 696)], WHITE)
+    # contrassegno (etichetta) sul riquadro in alto a destra
+    p.R([1270, 222, 1370, 268], rad=12, fill=p.a, outline=WHITE, w=5)
+    p.C(1296, 245, 9, fill=WHITE)
+    p.L([(1316, 245), (1350, 245)], w=7, c=WHITE)
+
 ICONS = {
     "quick": quick, "calc": calc, "klarna": klarna, "planb": planb, "collective": collective,
     "niche": niche, "pureverve": pureverve, "creators": creators, "login": login, "kits": kits,
     "retail": retail, "chat_cart": chat_cart, "colour_fade": colour_fade,
+    "catalog": catalog,
 }
