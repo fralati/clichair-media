@@ -205,4 +205,38 @@ def berretto(p):
             p.L([(fx - r * math.cos(t), fy - r * math.sin(t)), (fx + r * math.cos(t), fy + r * math.sin(t))], w=5)
 
 
-ICONS = {f.__name__: f for f in [flacone, goccia, cute, ricciolo, ciocche, forbici, tabella, sole, fiocco, rasoio, calendario, ciotola, berretto]}
+def balayage(p):
+    # balayage: paletta con ciocche scure schiarite verso le punte e pennello piatto che dipinge
+    p.R([960, 250, 1330, 740], rad=60, fill=WHITE, outline=p.a, w=8)
+    # manico della paletta, stretto e con foro
+    p.R([1115, 735, 1175, 830], rad=24, fill=WHITE, outline=p.a, w=8)
+    p.C(1145, 800, 10, outline=p.a, w=5)
+    # ciocche: parte alta scura, punte schiarite con sfumatura a V
+    for k, x in enumerate([1000, 1075, 1150, 1225]):
+        top = 280 + (k % 2) * 25
+        p.R([x, top, x + 62, 710], rad=31, fill=p.t, outline=p.a, w=6)
+        mid = 470 + (k % 2) * 30
+        p.R([x + 3, top + 3, x + 59, mid], rad=28, fill=p.a)
+        for j in range(3):
+            y0 = mid + j * 26
+            p.L([(x + 12 + j * 6, y0), (x + 31, y0 + 22), (x + 50 - j * 6, y0)], w=4)
+    # pennello piatto: testa con setole che appoggia sull'ultima ciocca, manico verso l'alto a destra
+    ang = math.radians(-58)
+    cx, cy = 1290, 600
+    def rot(dx, dy):
+        return (cx + dx * math.cos(ang) - dy * math.sin(ang), cy + dx * math.sin(ang) + dy * math.cos(ang))
+    # setole (rettangolo ruotato) e ghiera
+    p.poly([rot(-10, -45), rot(60, -45), rot(60, 45), rot(-10, 45)], fill=p.t, outline=p.a, w=7)
+    for d in (-25, 0, 25):
+        p.L([rot(-8, d), rot(40, d)], w=4)
+    p.poly([rot(60, -38), rot(110, -30), rot(110, 30), rot(60, 38)], fill=p.a)
+    p.L([rot(110, 0), rot(330, 0)], w=16)
+    p.C(*rot(330, 0), 11, fill=p.a)
+    # luce sulle punte
+    for (sx, sy, r) in [(1420, 700, 24), (1420, 300, 20)]:
+        if r:
+            p.L([(sx - r, sy), (sx + r, sy)], w=5)
+            p.L([(sx, sy - r), (sx, sy + r)], w=5)
+
+
+ICONS = {f.__name__: f for f in [flacone, goccia, cute, ricciolo, ciocche, forbici, tabella, sole, fiocco, rasoio, calendario, ciotola, berretto, balayage]}

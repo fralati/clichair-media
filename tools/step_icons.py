@@ -156,4 +156,48 @@ def spray(p):
     p.poly([(600, 430), (640, 430), (620, 465)], fill=p.a)
 
 
-STEPS = {f.__name__: f for f in [bagnare, massaggio, posa, risciacquo, asciugamano, sezioni, pettine, lunghezze, calendario, ciotola, spray]}
+def _pennello(p, cx, cy, deg, L=230):
+    ang = math.radians(deg)
+    def rot(dx, dy):
+        return (cx + dx * math.cos(ang) - dy * math.sin(ang), cy + dx * math.sin(ang) + dy * math.cos(ang))
+    p.poly([rot(-8, -34), rot(46, -34), rot(46, 34), rot(-8, 34)], fill=p.t, outline=p.a, w=6)
+    for d in (-18, 0, 18):
+        p.L([rot(-6, d), rot(30, d)], w=3)
+    p.poly([rot(46, -28), rot(84, -22), rot(84, 22), rot(46, 28)], fill=p.a)
+    p.L([rot(84, 0), rot(L, 0)], w=12)
+    p.C(*rot(L, 0), 9, fill=p.a)
+
+
+def balayage(p):
+    # balayage a mano libera: paletta con ciocche, punte schiarite, pennello piatto
+    p.R([150, 110, 450, 480], rad=46, fill=WHITE, outline=p.a, w=7)
+    for k, x in enumerate([185, 250, 315, 380]):
+        top = 135 + (k % 2) * 20
+        p.R([x, top, x + 50, 455], rad=25, fill=p.t, outline=p.a, w=5)
+        mid = 285 + (k % 2) * 25
+        p.R([x + 3, top + 3, x + 47, mid], rad=22, fill=p.a)
+        for j in range(2):
+            y0 = mid + j * 22
+            p.L([(x + 10 + j * 5, y0), (x + 25, y0 + 18), (x + 40 - j * 5, y0)], w=3)
+    _pennello(p, 440, 380, -58)
+
+
+def tono(p):
+    # tonalizzare a occhio: ciocca chiara con punte calde, pennello che parte dalla zona piu' gialla, occhio
+    p.R([200, 100, 300, 500], rad=50, fill=WHITE, outline=p.a, w=7)
+    for row, y in enumerate(range(330, 485, 24)):
+        for x in range(218 + (row % 2) * 12, 290, 24):
+            p.C(x, y, 6, fill=p.a)
+    for x in [225, 250, 275]:
+        p.L([(x, 120), (x, 310)], w=3)
+    _pennello(p, 310, 380, -40, L=200)
+    # occhio: controllo visivo
+    cx, cy = 520, 200
+    up = [(cx + 90 * math.cos(math.radians(a)), cy - 45 * math.sin(math.radians(a))) for a in range(0, 181, 6)]
+    dn = [(cx - 90 * math.cos(math.radians(a)), cy + 45 * math.sin(math.radians(a))) for a in range(0, 181, 6)]
+    p.poly(up + dn, fill=WHITE, outline=p.a, w=7)
+    p.C(cx, cy, 26, fill=p.a)
+    p.C(cx + 8, cy - 8, 7, fill=WHITE)
+
+
+STEPS = {f.__name__: f for f in [bagnare, massaggio, posa, risciacquo, asciugamano, sezioni, pettine, lunghezze, calendario, ciotola, spray, balayage, tono]}
